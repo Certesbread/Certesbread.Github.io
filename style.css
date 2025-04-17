@@ -3,6 +3,31 @@
   src: url("./Andy\ Bold.ttf");
 }
 
+#slideshow-container {
+  position: relative;
+  width: 30vw;
+  height: 72.5vh;
+  overflow: hidden;
+}
+
+.slideshow-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 0;
+}
+
+.slideshow-img.active {
+  opacity: 1;
+  z-index: 1;
+}
+
 html {
   align-items: center;
   display: flex;
@@ -12,7 +37,7 @@ html {
 
 body {
   display: flex;
-  color: #26221c;
+  color: transparent;
   background: #211930;
   margin-right: 9em;
   padding: 1em;
@@ -20,11 +45,10 @@ body {
 }
 
 img {
-  height: 600px;
-  width: 350px;
-  margin-right: 2em;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  height: 72.5vh;
+  width: 30vw;
+  transition: opacity 1s ease;
+  opacity: 1;
 }
 
 nav {
@@ -36,9 +60,9 @@ nav {
 }
 
 h1 {
-  font-size: 2.4em;
+  font-size: 4.8vh;
   font-weight: 600;
-  color: #82dc47;
+  color: transparent;
   grid-column: 1/-1;
   text-align: center;
   margin-bottom: 0;
@@ -46,9 +70,9 @@ h1 {
 }
 
 h2 {
-  font-size: 1.7em;
+  font-size: 3.4vh;
   font-weight: 600;
-  color: #916dce;
+  color: transparent;
   grid-column: 1/-1;
   text-align: center;
   margin-bottom: 0em;
@@ -62,14 +86,14 @@ ul {
 }
 
 li {
-  line-height: 1.4em;
+  line-height: 2em;
   margin-left: 5em;
 }
 
 li:first-child {
   display: inline-block;
-  color: #916dce;
-  font-size: 2.0em;
+  color: inherit;
+  font-size: 4vh;
   font-weight: 600;
   text-align: center;
   line-height: 2em;
@@ -77,11 +101,20 @@ li:first-child {
 }
 
 a {
-  color: #82dc47;
-  font-size: 1.6em;
+  color: inherit;
+  font-size: 3.2vh;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 a:hover {
-  color: #916dce;
+  color: var(--text1-color);
+  text-shadow: 0 0 5px var(--text1-color); /* Optional: Adds a glow effect */
+}
+
+body,h1,h2,
+.text1,
+.text2,
+.background {
+  transition: background-color 1s ease, color 1s ease;
 }
