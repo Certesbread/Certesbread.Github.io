@@ -78,6 +78,7 @@ function updateVisuals() {
       });
 
       document.documentElement.style.setProperty('--text1-color', text1Colors[index]);
+      document.documentElement.style.setProperty('--text2-color', text2Colors[index]);
 
       const favicon1 = document.getElementById("favicon1");
       const favicon2 = document.getElementById("favicon2");
