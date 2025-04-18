@@ -31,56 +31,59 @@ function updateVisuals() {
   const backgrounds = ["#1F1303", "#211930", "#31080e"];
   const icons = ["ReiIcon.png", "ShinjiIcon.png", "AsukaIcon.png"];
 
-  let currentIndex = localStorage.getItem('imageIndex');
-  if (currentIndex === null) {
-    const today = new Date();
-    const start = new Date(today.getFullYear(), 0, 0);
-    const hoursSinceStart = Math.floor((today - start) / (1000 * 60 * 60));
-    currentIndex = hoursSinceStart % images.length;
-    localStorage.setItem('imageIndex', currentIndex);
-  } else {
-    currentIndex = parseInt(currentIndex, 10);
+  const INTERVAL_SECONDS = 3600; // one hour
+
+  function getCurrentIndex() {
+    const now = new Date();
+    const startUTC = new Date(Date.UTC(now.getUTCFullYear(), 0, 1));
+    const elapsedMs = now.getTime() - startUTC.getTime();
+    const interval = Math.floor(elapsedMs / (1000 * INTERVAL_SECONDS));
+    return interval % images.length;
+  }
+
+  function getMsUntilNextInterval() {
+    const now = new Date();
+    const seconds = Math.floor((now.getTime() - Date.UTC(now.getUTCFullYear(), 0, 1)) / 1000);
+    const remainder = seconds % INTERVAL_SECONDS;
+    return (INTERVAL_SECONDS - remainder) * 1000 - now.getMilliseconds();
   }
 
   let currentImg = 1;
+  let lastIndex = -1;
 
-  function crossfade() {
+  function applyVisuals(index) {
     const img1 = document.getElementById("slideshow1");
     const img2 = document.getElementById("slideshow2");
     const fadeOut = currentImg === 1 ? img1 : img2;
     const fadeIn = currentImg === 1 ? img2 : img1;
 
-    const nextIndex = (currentIndex + 1) % images.length;
-    fadeIn.src = images[nextIndex];
+    fadeIn.src = images[index];
 
     fadeIn.onload = () => {
       fadeIn.classList.add("active");
       fadeOut.classList.remove("active");
 
-      currentIndex = nextIndex;
-      localStorage.setItem('imageIndex', currentIndex);
       currentImg = currentImg === 1 ? 2 : 1;
 
       document.querySelectorAll(".text1").forEach(el => {
-        el.style.color = text1Colors[currentIndex];
+        el.style.color = text1Colors[index];
       });
 
       document.querySelectorAll(".text2").forEach(el => {
-        el.style.color = text2Colors[currentIndex];
+        el.style.color = text2Colors[index];
       });
 
       document.querySelectorAll(".background").forEach(el => {
-        el.style.backgroundColor = backgrounds[currentIndex];
+        el.style.backgroundColor = backgrounds[index];
       });
 
-      document.documentElement.style.setProperty('--text1-color', text1Colors[currentIndex]);
+      document.documentElement.style.setProperty('--text1-color', text1Colors[index]);
 
-      // ---- Favicon Fade Swap ----
       const favicon1 = document.getElementById("favicon1");
       const favicon2 = document.getElementById("favicon2");
 
       const newFavicon = currentImg === 1 ? favicon2 : favicon1;
-      newFavicon.href = icons[currentIndex];
+      newFavicon.href = icons[index];
       newFavicon.disabled = false;
 
       setTimeout(() => {
@@ -88,38 +91,21 @@ function updateVisuals() {
         oldFavicon.disabled = true;
       }, 100);
     };
-
-    fadeIn.classList.add("active");
-    fadeOut.classList.remove("active");
   }
 
-  // Initial setup
-  const img1 = document.getElementById("slideshow1");
-  img1.src = images[currentIndex];
-  img1.classList.add("active");
+  function syncAndUpdate() {
+    const index = getCurrentIndex();
+    if (index !== lastIndex) {
+      applyVisuals(index);
+      lastIndex = index;
+    }
 
-  document.querySelectorAll(".text1").forEach(el => {
-    el.style.color = text1Colors[currentIndex];
-  });
+    const delay = getMsUntilNextInterval();
+    setTimeout(syncAndUpdate, delay);
+  }
 
-  document.querySelectorAll(".text2").forEach(el => {
-    el.style.color = text2Colors[currentIndex];
-  });
-
-  document.querySelectorAll(".background").forEach(el => {
-    el.style.backgroundColor = backgrounds[currentIndex];
-  });
-
-  document.documentElement.style.setProperty('--text1-color', text1Colors[currentIndex]);
-
-  // Sync favicon on initial load too
-  const favicon1 = document.getElementById("favicon1");
-  const favicon2 = document.getElementById("favicon2");
-  favicon1.href = icons[currentIndex];
-  favicon1.disabled = false;
-  favicon2.disabled = true;
-
-  setInterval(crossfade, 360000);
+  // Initial load
+  syncAndUpdate();
 }
 
 updateVisuals();
