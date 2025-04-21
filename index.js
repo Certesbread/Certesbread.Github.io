@@ -26,7 +26,7 @@ showTime();
 
 function updateVisuals() {
   const images = ["EVA-00.jpg", "EVA-01.jpg", "EVA-02.jpg"];
-  const text1Colors = ["#B6DAFD", "#916dce", "#cf2c2f"];
+  const text1Colors = ["#", "#916dce", "#cf2c2f"];
   const text2Colors = ["#D4D5D8", "#82DC47", "#FAAC3D"];
   const backgrounds = ["#1F1303", "#211930", "#31080e"];
   const icons = ["ReiIcon.png", "ShinjiIcon.png", "AsukaIcon.png"];

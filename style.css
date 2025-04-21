@@ -75,9 +75,9 @@ h2 {
   font-weight: 600;
   color: transparent;
   grid-column: 1/-1;
-  text-align: center;
   margin-bottom: 0em;
   text-shadow: 0 0 5px var(--text1-color);
+  margin-left: 2.75em;
 }
 
 ul {
@@ -89,7 +89,7 @@ ul {
 
 li {
   line-height: 2em;
-  margin-left: 5em;
+  margin-left: 6em;
 }
 
 li:first-child {
