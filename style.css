@@ -76,7 +76,6 @@ h2 {
   color: transparent;
   grid-column: 1/-1;
   margin-bottom: 0em;
-  text-shadow: 0 0 5px var(--text1-color);
   margin-left: 2.75em;
 }
 
@@ -100,6 +99,7 @@ li:first-child {
   text-align: center;
   line-height: 2em;
   margin-left: 2.5em;
+  text-shadow: 0 0 5px var(--text1-color);  
 }
 
 a {
