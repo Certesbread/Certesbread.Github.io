@@ -45,8 +45,8 @@ body {
 }
 
 img {
-  height: 72.5vh;
-  width: 30vw;
+  height: 600px;
+  width: 460px;
   transition: opacity 1s ease;
   opacity: 1;
 }
